@@ -1,0 +1,74 @@
+{% extends "core/page_template.html" %}
+{% load static %}
+
+{% block browserTitle %} {{ block.super}} Dashboard {% endblock %}
+
+{% block pageTitle %} Dashboard {% endblock %}
+
+{% block extraFiles %} 
+	<style>
+		.colsplit {
+			column-count: 3;
+			column-gap: 40px;
+		}
+		
+	</style>
+		
+{% endblock %}
+
+
+
+{% block content %}
+
+	<div class="{{ templateHelpers.classes.grid }}">
+		<div class="mt4 mb3 f4"><span class="f3 b dark-green code mr2">{{ postingCounts }}</span>job applications</div>
+		<div class="pa4 bg-near-white flex-ns">
+			<div class="w-33-ns mb2 mb0-ns"><span class="f4 b orange code mr1">{{ sorryPassPostings.count }}</span> passed</div>
+			<div class="w-33-ns mb2 mb0-ns ml4-ns"><span class="f4 b dark-red code mr1">{{ declinedPostings.count }}</span> declined</div>
+			<div class="w-33-ns mb2 mb0-ns ml4-ns"><span class="f4 b code mr1">{{ noContactPostings.count }}</span> waiting for contact</div>
+		</div>
+				
+				
+		<div class="mt4 mb3 f4 b dark-green">Active</div>
+		<div class="colsplit pa4 bg-near-white">
+			{% for posting in activePostings %}
+				<div class="mb3">
+					<div>{{ posting.company.name }}</div>
+					<div class="f6 gray">{{ posting.title }}</div>
+				</div>
+			{% endfor %}
+		</div>
+		
+		<div class="mt4 mb3 gray f4 b">Waiting contact</div>
+		<div class="colsplit pa4 bg-near-white">
+			{% for posting in noContactPostings %}
+				<div class="mb3">
+					<div>{{ posting.company.name }}</div>
+					<div class="f6 gray">{{ posting.title }}</div>
+				</div>
+			{% endfor %}
+		</div>
+		
+		<div class="mt4 mb3 f4 b orange">Passed</div>
+		<div class="colsplit pa4 bg-near-white">
+			{% for posting in sorryPassPostings %}
+				<div class="mb3">
+					<div>{{ posting.company.name }}</div>
+					<div class="f6 gray">{{ posting.title }}</div>
+				</div>
+			{% endfor %}
+		</div>
+		
+		<div class="mt4 mb3 f4 b dark-red">Declined</div>
+		<div class="colsplit pa4 bg-near-white">
+			{% for posting in declinedPostings %}
+				<div class="mb3">
+					<div>{{ posting.company.name }}</div>
+					<div class="f6 gray">{{ posting.title }}</div>
+				</div>
+			{% endfor %}
+		</div>
+		
+	</div>
+
+{% endblock %}

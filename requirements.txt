@@ -1,0 +1,11 @@
+django
+ipdb
+ipython
+psycopg2_binary
+requests
+whitenoise
+gunicorn
+django-extensions
+django-debug-toolbar
+django-hijack
+pandas

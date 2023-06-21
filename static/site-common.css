@@ -1,0 +1,167 @@
+:root {
+	--field-border-color: var(--silver);
+	--textcolor: var(--near-black);
+}
+
+
+/**
+	Default styling
+**/
+
+html, body, button, input, select, textarea, .textcolor {
+	color: var(--textcolor);
+}
+
+a, 
+.linkcolor {
+	color: var(--link-color);
+}
+
+.underline, 
+.linkcolor.underline {
+	text-decoration: underline;
+}
+
+
+/* Allow any link-colored text to behave like a link, automatically, and set at a container level */
+.linkcolor:focus,
+.linkcolor:hover,
+.custom-hover-linkcolor-underline:focus .linkcolor,
+.custom-hover-linkcolor-underline:hover .linkcolor {
+	text-decoration: underline;
+	color: var(--dark-blue);
+}
+
+.link:focus {
+	outline-width: 2px;
+}
+
+.link:focus:hover {
+	outline: none;
+}
+
+.custom-border-color {
+	border-color: var(--moon-gray);
+}
+
+/** Icon colors **/
+.icon {
+	fill: var(--link-color);
+	display: block;
+}
+
+.hover .icon:focus,
+.hover .icon:hover {
+	fill: var(--dark-blue);
+}
+
+.fill-textcolor .icon {
+	fill: var(--textcolor);
+}
+
+.fill-white .icon {
+	fill: #fff;
+}
+
+.hover-fill-white:focus .icon,
+.hover-fill-white:hover .icon {
+	fill: #fff;
+}
+
+.icon {
+	width: 24px;
+}
+
+.custom-form-horizontal-label {
+	width: 200px;
+}
+
+
+/**
+	Site navigation bar
+**/
+.custom-header a:focus,
+.custom-header a:hover {
+	background-color: var(--near-white);
+}
+
+.custom-header a:focus .icon,
+.custom-header a:hover .icon {
+	fill: var(--dark-blue);
+}
+
+.custom-header .custom-highlight {
+	background-color: var(--near-white);
+}
+
+.custom-header .custom-highlight::after {
+	background: var(--link-color);
+	bottom: 0;
+	content: '';
+	display: block;
+	height: 4px;
+	left: 0;
+	position: absolute;
+	width: 100%;
+}
+
+
+/**
+	Effects
+**/
+
+
+/* Matches animates all color changes together */
+.custom-animate-all,
+.custom-animate-all::before,
+.custom-animate-all::after {
+	transition: all .3s;
+}
+
+input:not([type=checkbox]),
+input:not([type=radio]),
+textarea,
+select {
+	border-radius: .25rem;
+	padding: 6px;
+	width: 100%;
+}
+
+input[type=checkbox],
+input[type=radio] {
+	height: 20px;
+	width: 20px;
+}
+
+input[type="date"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="text"],
+input[type="url"] {
+	height: 40px;
+}
+
+.custom-standard-button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 2px dotted var(--gray);
+	outline-offset: 2px;
+}
+
+input:hover,
+select:hover,
+textarea:hover {
+	border-color: var(--link-color);
+	box-shadow: 0 0 0 1px var(--link-color) inset;
+}
+
+select[multiple] {
+	height: 100px;
+}
+
+input[readonly] {
+	background: #eee;
+	color: #666;
+}
