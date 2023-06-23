@@ -32,9 +32,8 @@
 		<div class="mt4 mb3 f4 b dark-green">Active</div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in activePostings %}
-				<div class="mb3">
-					<div>{{ posting.company.name }}</div>
-					<div class="f6 gray">{{ posting.title }}</div>
+				<div class="mb3">{{ posting.company.name }}
+					<br><span class="f6 gray">{{ posting.title }}</span>
 				</div>
 			{% endfor %}
 		</div>
@@ -42,9 +41,8 @@
 		<div class="mt4 mb3 gray f4 b">Waiting contact</div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in noContactPostings %}
-				<div class="mb3">
-					<div>{{ posting.company.name }}</div>
-					<div class="f6 gray">{{ posting.title }}</div>
+				<div class="mb3">{{ posting.company.name }}
+					<br><span class="f6 gray">{{ posting.title }}</span>
 				</div>
 			{% endfor %}
 		</div>
@@ -52,9 +50,8 @@
 		<div class="mt4 mb3 f4 b orange">Passed</div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in sorryPassPostings %}
-				<div class="mb3">
-					<div>{{ posting.company.name }}</div>
-					<div class="f6 gray">{{ posting.title }}</div>
+				<div class="mb3">{{ posting.company.name }}
+					<br><span class="f6 gray">{{ posting.title }}</span>
 				</div>
 			{% endfor %}
 		</div>
@@ -62,9 +59,8 @@
 		<div class="mt4 mb3 f4 b dark-red">Declined</div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in declinedPostings %}
-				<div class="mb3">
-					<div>{{ posting.company.name }}</div>
-					<div class="f6 gray">{{ posting.title }}</div>
+				<div class="mb3">{{ posting.company.name }}
+					<br><span class="f6 gray">{{ posting.title }}</span>
 				</div>
 			{% endfor %}
 		</div>
