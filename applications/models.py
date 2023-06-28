@@ -1,4 +1,7 @@
+import pandas as pd
+
 from django.db import models
+from django.db.models import Q
 from django.utils import timezone
 
 
@@ -24,6 +27,7 @@ class JobPosting(models.Model):
 	updated_at = models.DateTimeField(auto_now=True)
 	
 	applied_date = models.DateField(default=getToday)
+	declined_date = models.DateField(null=True, blank=True)
 	company = models.ForeignKey(Company, related_name='job_posting_company', on_delete=models.PROTECT)
 	title = models.CharField(max_length=100)
 	url = models.URLField(max_length=255, null=True, blank=True)
@@ -45,5 +49,16 @@ class JobPosting(models.Model):
 		
 	def __str__(self):
 		return f'{self.company} - {self.title}'
-		
-		
+	
+	
+	def activeAppsCountByDate():
+		counts = []
+		dates = []
+		for date in pd.date_range(start='6/1/2023', end=pd.Timestamp.today()):
+			dateAware = timezone.make_aware(date)
+			activeCount = JobPosting.objects.filter(applied_date__lte=dateAware).exclude(status='declined', declined_date__lte=dateAware).count()
+			dates.append(dateAware.strftime('%Y-%m-%d'))
+			counts.append(activeCount)
+			
+		return (dates,counts)
+			

@@ -6,6 +6,7 @@
 {% block pageTitle %} Dashboard {% endblock %}
 
 {% block extraFiles %} 
+
 	<style>
 		.colsplit {
 			column-count: 3;
@@ -13,7 +14,9 @@
 		}
 		
 	</style>
-		
+	
+	{% include 'applications/c3_files.inc' %}
+	
 {% endblock %}
 
 
@@ -22,10 +25,15 @@
 
 	<div class="{{ templateHelpers.classes.grid }}">
 		<div class="mt4 mb3 f4"><span class="f3 b dark-green code mr2">{{ postingCounts }}</span>job applications</div>
+		
+		<div id="history-chart" class="mb3" style="height:300px;"></div>
+				
 		<div class="pa4 bg-near-white flex-ns">
-			<div class="w-33-ns mb2 mb0-ns"><span class="f4 b orange code mr1">{{ sorryPassPostings.count }}</span> passed</div>
-			<div class="w-33-ns mb2 mb0-ns ml4-ns"><span class="f4 b dark-red code mr1">{{ declinedPostings.count }}</span> declined</div>
-			<div class="w-33-ns mb2 mb0-ns ml4-ns"><span class="f4 b code mr1">{{ noContactPostings.count }}</span> waiting for contact</div>
+			<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b green code mr1">{{ activePostings.count }}</span> in play</div>
+			<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b code mr1">{{ noContactPostings.count }}</span> waiting for contact</div>
+			<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b orange code mr1">{{ sorryPassPostings.count }}</span> passed</div>
+			<div class="w-25-ns mb2 mb0-ns"><span class="f4 b dark-red code mr1">{{ declinedPostings.count }}</span> declined</div>
+			
 		</div>
 				
 				
@@ -41,30 +49,60 @@
 		<div class="mt4 mb3 gray f4 b">Waiting contact</div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in noContactPostings %}
-				<div class="mb3">{{ posting.company.name }}
-					<br><span class="f6 gray">{{ posting.title }}</span>
-				</div>
+				{% include 'core/partials/posting_list_item.html' with posting=posting %}
 			{% endfor %}
 		</div>
 		
 		<div class="mt4 mb3 f4 b orange">Passed</div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in sorryPassPostings %}
-				<div class="mb3">{{ posting.company.name }}
-					<br><span class="f6 gray">{{ posting.title }}</span>
-				</div>
+				{% include 'core/partials/posting_list_item.html' with posting=posting %}
 			{% endfor %}
 		</div>
 		
 		<div class="mt4 mb3 f4 b dark-red">Declined</div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in declinedPostings %}
-				<div class="mb3">{{ posting.company.name }}
-					<br><span class="f6 gray">{{ posting.title }}</span>
-				</div>
+				{% include 'core/partials/posting_list_item.html' with posting=posting %}
 			{% endfor %}
 		</div>
 		
 	</div>
+	
+	{% if dates %}
+		<script>
+			function createApplicationHistoryChart () {
+				var xSeries = {{ dates|safe }},
+					counts = {{ counts|safe }};
+				xSeries.unshift('x');
+				counts.unshift('Applications in play');
+				
+				var historyChart = c3.generate({
+						bindto: '#history-chart',
+						point: {r: 2},
+						data: {
+							type: 'area-spline',
+							x: 'x',
+							columns: [xSeries,counts],
+							labels: true,
+							colors: {
+								'Applications in play': '#137752',
+							  }
+						},
+						axis: {
+							x: {
+								type: 'timeseries',
+								tick: {
+									format: '%B-%d'
+								},
+							}
+						},
+						legend: { show: false },
+					});
+					
+			}
+			setTimeout(createApplicationHistoryChart, 100);
+		</script>
+	{% endif %}	
 
 {% endblock %}

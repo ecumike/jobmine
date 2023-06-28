@@ -17,6 +17,15 @@ a,
 	color: var(--link-color);
 }
 
+a {
+	text-decoration: none;
+}
+a:focus,
+a:hover {
+	text-decoration: underline;
+}
+
+
 .underline, 
 .linkcolor.underline {
 	text-decoration: underline;
