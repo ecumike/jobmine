@@ -20,47 +20,59 @@
 {% endblock %}
 
 
-
 {% block content %}
 
 	<div class="{{ templateHelpers.classes.grid }}">
 		<div class="mt4 mb3 f4"><span class="f3 b dark-green code mr2">{{ postingCounts }}</span>job applications</div>
 		
 		<div id="history-chart" class="mb3" style="height:300px;"></div>
+		
+		<div class="pa4 bg-near-white">
+			<div class="flex-ns justify-center">
+				<div class="mb4 w-100 mw5 tc">
+					<div class="f6">Avg initial screen contact</div>
+					<div class="f1 dark-green">{{ avgInitialContactDays }}</div>
+					<div class="">days</div>
+				</div>	
+				<div class="mb4 w-100 mw5 tc">
+					<div class="f6">Avg "sorry passed" contact</div>
+					<div class="f1 dark-red">{{ avgSorryPassedDays }}</div>
+					<div class="">days</div>
+				</div>
+			</div>
 				
-		<div class="pa4 bg-near-white flex-ns">
-			<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b green code mr1">{{ activePostings.count }}</span> in play</div>
-			<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b code mr1">{{ noContactPostings.count }}</span> waiting for contact</div>
-			<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b orange code mr1">{{ sorryPassPostings.count }}</span> passed</div>
-			<div class="w-25-ns mb2 mb0-ns"><span class="f4 b dark-red code mr1">{{ declinedPostings.count }}</span> declined</div>
+			<div class="h1 b--gray bt mb3"></div>
 			
+			<div class="flex-ns">
+				<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b green code mr1">{{ activePostings.count }}</span> in play</div>
+				<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b code mr1">{{ noContactPostings.count }}</span> waiting for contact</div>
+				<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b orange code mr1">{{ sorryPassPostings.count }}</span> passed</div>
+				<div class="w-25-ns mb2 mb0-ns"><span class="f4 b dark-red code mr1">{{ declinedPostings.count }}</span> declined</div>
+			</div>
 		</div>
 				
-				
-		<div class="mt4 mb3 f4 b dark-green">Active</div>
+		<div class="mt4 mb3"><span class="f4 b dark-green">Active</span> <span class="ml2 f5 textcolor">({{ activePostings.count }})</span></div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in activePostings %}
-				<div class="mb3">{{ posting.company.name }}
-					<br><span class="f6 gray">{{ posting.title }}</span>
-				</div>
+				{% include 'core/partials/posting_list_item.html' with posting=posting %}
 			{% endfor %}
 		</div>
 		
-		<div class="mt4 mb3 gray f4 b">Waiting contact</div>
+		<div class="mt4 mb3"><span class="f4 b">Waiting contact</span> <span class="ml2 f5 textcolor">({{ noContactPostings.count }})</span></div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in noContactPostings %}
 				{% include 'core/partials/posting_list_item.html' with posting=posting %}
 			{% endfor %}
 		</div>
 		
-		<div class="mt4 mb3 f4 b orange">Passed</div>
+		<div class="mt4 mb3"><span class="f4 b orange">Passed</span> <span class="ml2 f5 textcolor">({{ sorryPassPostings.count }})</span></div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in sorryPassPostings %}
 				{% include 'core/partials/posting_list_item.html' with posting=posting %}
 			{% endfor %}
 		</div>
 		
-		<div class="mt4 mb3 f4 b dark-red">Declined</div>
+		<div class="mt4 mb3"><span class="f4 b dark-red">Declined</span> <span class="ml2 f5 textcolor">({{ declinedPostings.count }})</span></div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in declinedPostings %}
 				{% include 'core/partials/posting_list_item.html' with posting=posting %}
@@ -83,7 +95,7 @@
 						data: {
 							type: 'area-spline',
 							x: 'x',
-							columns: [xSeries,counts],
+							columns: [],
 							labels: true,
 							colors: {
 								'Applications in play': '#137752',
@@ -100,8 +112,12 @@
 						legend: { show: false },
 					});
 					
+				historyChart.load({
+					columns: [xSeries,counts],
+				}, 500)
 			}
 			setTimeout(createApplicationHistoryChart, 100);
+			
 		</script>
 	{% endif %}	
 

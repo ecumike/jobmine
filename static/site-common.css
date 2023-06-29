@@ -1,6 +1,7 @@
 :root {
 	--field-border-color: var(--silver);
 	--textcolor: var(--near-black);
+	--link-color: #0043CE;
 }
 
 
@@ -9,6 +10,10 @@
 **/
 
 html, body, button, input, select, textarea, .textcolor {
+	color: var(--textcolor);
+}
+
+.textcolor {
 	color: var(--textcolor);
 }
 
@@ -21,7 +26,10 @@ a {
 	text-decoration: none;
 }
 a:focus,
-a:hover {
+a:hover,
+.linkcolor:focus,
+.linkcolor:hover {
+	color: var(--dark-blue);
 	text-decoration: underline;
 }
 
