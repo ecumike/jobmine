@@ -60,8 +60,12 @@ class JobPosting(models.Model):
 		if self.initial_contact_date:
 			self.initial_contact_days = (self.initial_contact_date - self.applied_date).days
 		
+		if self.initial_screen and not self.declined_date:
+			self.status = 'active'
+		
 		if self.declined_date:
 			self.declined_days = (self.declined_date - self.applied_date).days
+			self.status = 'declined'
 		
 		super(JobPosting, self).save(*args, **kwargs) 
 		

@@ -14,7 +14,7 @@ def home(request):
 		'declinedPostings': JobPosting.objects.filter(status='declined', initial_screen=False),
 		# "pass" is declined applications that had at least an initial phone screen call.
 		'sorryPassPostings': JobPosting.objects.filter(status='declined', initial_screen=True),
-		'noContactPostings': JobPosting.objects.exclude(status='declined'),
+		'noContactPostings': JobPosting.objects.exclude(status='declined').exclude(initial_screen=True),
 		'dates': JobPosting.activeAppsCountByDate()[0],
 		'counts': JobPosting.activeAppsCountByDate()[1],
 		'avgInitialContactDays': JobPosting.getAverageInitialContactDays(),
