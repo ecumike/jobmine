@@ -18,7 +18,7 @@ def home(request):
 		'dates': JobPosting.activeAppsCountByDate()[0],
 		'counts': JobPosting.activeAppsCountByDate()[1],
 		'avgInitialContactDays': JobPosting.getAverageInitialContactDays(),
-		'avgSorryPassedDays': JobPosting.getAverageDeclinedDays(),
+		'avgDeclinedDays': JobPosting.getAverageDeclinedDays(),
 	}
 	return render(request, 'core/home.html', context)
 	
