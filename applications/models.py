@@ -96,7 +96,7 @@ class JobPosting(models.Model):
 	@staticmethod
 	def getAverageDeclinedDays():
 		try:
-			return round(JobPosting.objects.filter(declined_days__gt=0).aggregate(Avg('declined_days'))['declined_days__avg'],1)
+			return round(JobPosting.objects.filter(declined_days__gt=0, initial_screen=False).aggregate(Avg('declined_days'))['declined_days__avg'],1)
 		except:
 			return 0
 			
