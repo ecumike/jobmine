@@ -23,9 +23,9 @@
 {% block content %}
 
 	<div class="{{ templateHelpers.classes.grid }}">
-		<div class="mt4 mb3 f4"><span class="f3 b dark-green code mr2">{{ postingCounts }}</span>job applications</div>
+		<div class="mv4 f4"><span class="f3 b dark-green code mr2">{{ postingCounts }}</span>job applications</div>
 		
-		<div id="history-chart" class="mb3" style="height:300px;"></div>
+		{% if dates %}<div id="history-chart" class="mb3" style="height:300px;"></div>{% endif %}
 		
 		<div class="pa4 bg-near-white">
 			<div class="flex-ns justify-center">

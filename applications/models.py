@@ -70,23 +70,31 @@ class JobPosting(models.Model):
 	def activeAppsCountByDate():
 		counts = []
 		dates = []
-		for date in pd.date_range(start='6/1/2023', end=pd.Timestamp.today()):
-			dateAware = timezone.make_aware(date)
-			activeCount = JobPosting.objects.filter(applied_date__lte=dateAware).exclude(status='declined', declined_date__lte=dateAware).count()
-			dates.append(dateAware.strftime('%Y-%m-%d'))
-			counts.append(activeCount)
+		firstApplication = JobPosting.objects.order_by('applied_date').first()
+		if firstApplication:
+			for date in pd.date_range(start=firstApplication.applied_date, end=pd.Timestamp.today()):
+				dateAware = timezone.make_aware(date)
+				activeCount = JobPosting.objects.filter(applied_date__lte=dateAware).exclude(status='declined', declined_date__lte=dateAware).count()
+				dates.append(dateAware.strftime('%Y-%m-%d'))
+				counts.append(activeCount)
 			
 		return (dates,counts)
 	
 	
 	@staticmethod
 	def getAverageInitialContactDays():
-		return round(JobPosting.objects.filter(initial_contact_days__gt=0).aggregate(Avg('initial_contact_days'))['initial_contact_days__avg'],1)
+		try:
+			return round(JobPosting.objects.filter(initial_contact_days__gt=0).aggregate(Avg('initial_contact_days'))['initial_contact_days__avg'],1)
+		except:
+			return 0
 	
 	
 	@staticmethod
 	def getAverageDeclinedDays():
-		return round(JobPosting.objects.filter(declined_days__gt=0).aggregate(Avg('declined_days'))['declined_days__avg'],1)
+		try:
+			return round(JobPosting.objects.filter(declined_days__gt=0).aggregate(Avg('declined_days'))['declined_days__avg'],1)
+		except:
+			return 0
 			
 		
 			
