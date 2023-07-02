@@ -29,7 +29,10 @@ DEBUG = os.environ.get('DJANGO_DEBUG', False)
 try:
 	ALLOWED_HOSTS = os.environ.get('SERVERNAMES').split(' ')
 except:
-	ALLOWED_HOSTS = []
+	ALLOWED_HOSTS = [
+		'localhost',
+		'127.0.0.1',
+	]
 
 # For django debug toolbar
 INTERNAL_IPS = ['127.0.0.1',]
