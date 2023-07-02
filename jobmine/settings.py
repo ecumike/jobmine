@@ -162,3 +162,10 @@ MEDIA_URL = os.getenv('DJANGO_MEDIA_URL', '/media/')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+## Import local settings that may exist to override production settings above.
+## (settings_local.py)
+try:
+	from .local_settings import *
+except ImportError as ex:
+	pass
