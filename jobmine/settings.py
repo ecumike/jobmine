@@ -26,7 +26,10 @@ SECRET_KEY = 'django-insecure-#ntssamxp8l)p=(zy7hin7-zx@58t56_9x#^*0v2&8l45_rxt5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = os.environ.get('SERVERNAMES').split(' ')
+try:
+	ALLOWED_HOSTS = os.environ.get('SERVERNAMES').split(' ')
+except:
+	ALLOWED_HOSTS = []
 
 # For django debug toolbar
 INTERNAL_IPS = ['127.0.0.1',]
