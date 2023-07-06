@@ -9,7 +9,7 @@ $ cd jobmine
 ```
 
 
-### Pip
+### Setup
 
 ```
 $ python -m venv .venv
@@ -22,11 +22,21 @@ $ .venv\Scripts\Activate.ps1
 $ source .venv/bin/activate
 
 (.venv) $ pip install -r requirements.txt
-(.venv) $ python manage.py migrate
-(.venv) $ python manage.py createsuperuser
-(.venv) $ python manage.py runserver
+(.venv) $ ./manage.py migrate
+(.venv) $ ./manage.py createsuperuser
+(.venv) $ ./manage.py runserver
 # Load the site at http://127.0.0.1:8000
 ```
+
+### Sample data
+
+```
+# Generate a sample data set of ## job postings (minimum 20)
+(.venv) $ ./manage.py generate_sample_data 39
+
+# Clear sample data
+(.venv) $ ./manage.py clear_sample_data
+
 
 ### ⭐️ Support
 Give a ⭐️  if this project helped you!
