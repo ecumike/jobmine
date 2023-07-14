@@ -1,3 +1,8 @@
-<div class="mb3">{{ posting.company.name }}
-	<br><span class="mt1 dib f6">{% if posting.url %}<a href="{{ posting.url }}" target="_blank">{{ posting.title }}</a>{% else %}<span class="gray">{{ posting.title }}</span>{% endif %}</span>
+
+<div class="mb3">
+	<div class="inline-flex">
+		<div>{{ posting.company.name }}</div>
+		<div><a href="{% url 'admin:applications_jobposting_change' object_id=posting.id %}"><span class="icon small dib ml2">{{ templateHelpers.icons.edit|safe }}</span></a></div>
+	</div>
+	<br><div class="mt1 dib f6">{% if posting.url %}<a href="{{ posting.url }}" target="_blank">{{ posting.title }}</a>{% else %}<span class="gray">{{ posting.title }}</span>{% endif %}</div>
 </div>
