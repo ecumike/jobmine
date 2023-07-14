@@ -23,7 +23,10 @@
 {% block content %}
 
 	<div class="{{ templateHelpers.classes.grid }}">
-		<div class="mv4 f4"><span class="f3 b dark-green code mr2">{{ postingCounts }}</span>job applications</div>
+		<div class="mv4">
+			<div><span class="f3 b dark-green code mr2">{{ postingCounts }}</span>job applications</div>
+			<div class="mt3"><a class="inline-flex" href="{% url 'admin:applications_jobposting_add' %}"><div>Add new</div><div class="icon dib">{{ templateHelpers.icons.add|safe }}</div></a></div>
+		</div>
 		
 		{% if dates %}<div id="history-chart" class="mb3" style="height:300px;"></div>{% endif %}
 		

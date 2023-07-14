@@ -62,9 +62,15 @@ a:hover,
 }
 
 /** Icon colors **/
-.icon {
+.icon svg {
 	fill: var(--link-color);
-	display: block;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+}
+.icon.small svg {
+	width: 18px;
+	height: 18px;
 }
 
 .hover .icon:focus,
