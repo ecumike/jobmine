@@ -16,7 +16,7 @@
 	</style>
 	
 	{% include 'applications/c3_files.inc' %}
-	
+		
 {% endblock %}
 
 
@@ -54,6 +54,13 @@
 			</div>
 		</div>
 				
+		
+		<div class="mt5 flex-ns items-center">
+			<div>Filter applications:</div>
+			<div class="ml3"><input id="filter-text" type="search" value=""></div>
+		</div>
+		
+		
 		<div class="mt4 mb3"><span class="f4 b dark-green">Active</span> <span class="ml2 f5 textcolor">({{ activePostings.count }})</span></div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in activePostings %}
@@ -121,6 +128,40 @@
 			}
 			setTimeout(createApplicationHistoryChart, 100);
 			
+			
+			
+		
+			(function () {
+				var txt = '';
+				
+				document.getElementById('filter-text').addEventListener('input', function () {
+					try {
+						txt = document.getElementById('filter-text').value.trim().toLowerCase();
+					}
+					catch {
+						txt = '';
+					}
+					
+					document.querySelectorAll('.application-item').forEach(function (el) {
+						if (txt !== '') {
+							if (el.innerHTML.toLowerCase().includes(txt)) {
+								el.classList.remove('dn');
+								el.classList.add('db');
+							}
+							else {
+								el.classList.remove('db');
+								el.classList.add('dn');
+							}
+						}
+						else {
+							el.classList.remove('dn');
+							el.classList.add('db');
+						}
+					});
+				});
+				
+			})();	
+
 		</script>
 	{% endif %}	
 
