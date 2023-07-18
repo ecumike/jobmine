@@ -7,6 +7,12 @@ from applications.models import *
 ##	/
 ##
 def home(request):
+	staleApplications = JobPosting.getStaleApplications()
+	noContactPostings = JobPosting.objects.exclude(status='declined').exclude(initial_screen=True).only('title', 'url', 'company__name').select_related('company')
+	
+	for ncp in noContactPostings:
+		ncp.isOld = ncp in staleApplications
+		
 	context = {
 		'postingCounts': JobPosting.objects.count(),
 		'activePostings': JobPosting.objects.filter(status='active'),
@@ -14,7 +20,7 @@ def home(request):
 		'declinedPostings': JobPosting.objects.filter(status='declined', initial_screen=False),
 		# "pass" is declined applications that had at least an initial phone screen call.
 		'sorryPassPostings': JobPosting.objects.filter(status='declined', initial_screen=True),
-		'noContactPostings': JobPosting.objects.exclude(status='declined').exclude(initial_screen=True),
+		'noContactPostings': noContactPostings,
 		'dates': JobPosting.activeAppsCountByDate()[0],
 		'counts': JobPosting.activeAppsCountByDate()[1],
 		'avgInitialContactDays': JobPosting.getAverageInitialContactDays(),

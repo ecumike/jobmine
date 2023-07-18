@@ -1,5 +1,7 @@
 import pandas as pd
 
+from datetime import timedelta
+
 from django.db import models
 from django.db.models import Avg, Q
 from django.utils import timezone
@@ -70,11 +72,27 @@ class JobPosting(models.Model):
 		super(JobPosting, self).save(*args, **kwargs) 
 		
 		
+	def isStaleApplication(self):
+		try:
+			if (timezone.now().date() - self.applied_date).days > 30:
+				return True
+			else:
+				return False
+		except:
+			return False
+		
+		
+	@staticmethod
+	def getStaleApplications():
+		oldDate = timezone.now() - timedelta(days=30)
+		return JobPosting.objects.filter(applied_date__lte=oldDate).only('id')
+	
+	
 	@staticmethod
 	def activeAppsCountByDate():
 		counts = []
 		dates = []
-		firstApplication = JobPosting.objects.order_by('applied_date').first()
+		firstApplication = JobPosting.objects.order_by('applied_date').only('id').first()
 		if firstApplication:
 			for date in pd.date_range(start=firstApplication.applied_date, end=pd.Timestamp.today()):
 				dateAware = timezone.make_aware(date)

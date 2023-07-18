@@ -145,7 +145,6 @@ input:not([type=radio]),
 textarea,
 select {
 	border-radius: .25rem;
-	padding: 6px;
 	width: 100%;
 }
 
