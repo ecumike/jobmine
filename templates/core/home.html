@@ -16,16 +16,16 @@
 	</style>
 	
 	{% include 'applications/c3_files.inc' %}
-	
+		
 {% endblock %}
 
 
 {% block content %}
 
 	<div class="{{ templateHelpers.classes.grid }}">
-		<div class="mv4">
+		<div class="mv4 inline-flex items-center">
 			<div><span class="f3 b dark-green code mr2">{{ postingCounts }}</span>job applications</div>
-			<div class="mt3"><a class="inline-flex" href="{% url 'admin:applications_jobposting_add' %}"><div>Add new</div><div class="icon dib">{{ templateHelpers.icons.add|safe }}</div></a></div>
+			<div class="ml3 mt1"><a href="{% url 'admin:applications_jobposting_add' %}" class="b--blue ba bg-blue bl-animate-all no-underline br1 bw1 dib hover-b--dark-blue hover-bg-dark-blue hover-white ph2 pointer pv1 white">Add new</a></div>
 		</div>
 		
 		{% if dates %}<div id="history-chart" class="mb3" style="height:300px;"></div>{% endif %}
@@ -47,13 +47,20 @@
 			<div class="h1 b--gray bt mb3"></div>
 			
 			<div class="flex-ns">
-				<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b green code mr1">{{ activePostings.count }}</span> in play</div>
-				<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b code mr1">{{ noContactPostings.count }}</span> waiting for contact</div>
+				<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b green code mr1">{{ activePostings.count }}</span> active</div>
+				<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b code mr1">{{ noContactPostings.count }}</span> awaiting initial response</div>
 				<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b orange code mr1">{{ sorryPassPostings.count }}</span> passed</div>
 				<div class="w-25-ns mb2 mb0-ns"><span class="f4 b dark-red code mr1">{{ declinedPostings.count }}</span> declined</div>
 			</div>
 		</div>
 				
+		
+		<div class="mv5 flex-ns items-center">
+			<div>Filter applications:</div>
+			<div class="ml3"><input id="filter-text" type="search" value=""></div>
+		</div>
+		
+		
 		<div class="mt4 mb3"><span class="f4 b dark-green">Active</span> <span class="ml2 f5 textcolor">({{ activePostings.count }})</span></div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in activePostings %}
@@ -61,7 +68,7 @@
 			{% endfor %}
 		</div>
 		
-		<div class="mt4 mb3"><span class="f4 b">Waiting contact</span> <span class="ml2 f5 textcolor">({{ noContactPostings.count }})</span></div>
+		<div class="mt4 mb3"><span class="f4 b">Awaiting initial response</span> <span class="ml2 f5 textcolor">({{ noContactPostings.count }})</span></div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in noContactPostings %}
 				{% include 'core/partials/posting_list_item.html' with posting=posting %}
@@ -121,6 +128,40 @@
 			}
 			setTimeout(createApplicationHistoryChart, 100);
 			
+			
+			
+		
+			(function () {
+				var txt = '';
+				
+				document.getElementById('filter-text').addEventListener('input', function () {
+					try {
+						txt = document.getElementById('filter-text').value.trim().toLowerCase();
+					}
+					catch {
+						txt = '';
+					}
+					
+					document.querySelectorAll('.application-item').forEach(function (el) {
+						if (txt !== '') {
+							if (el.innerHTML.toLowerCase().includes(txt)) {
+								el.classList.remove('dn');
+								el.classList.add('db');
+							}
+							else {
+								el.classList.remove('db');
+								el.classList.add('dn');
+							}
+						}
+						else {
+							el.classList.remove('dn');
+							el.classList.add('db');
+						}
+					});
+				});
+				
+			})();	
+
 		</script>
 	{% endif %}	
 

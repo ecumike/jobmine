@@ -1,6 +1,5 @@
 :root {
 	--field-border-color: var(--silver);
-	--textcolor: var(--near-black);
 	--link-color: #0043CE;
 }
 
@@ -10,11 +9,11 @@
 **/
 
 html, body, button, input, select, textarea, .textcolor {
-	color: var(--textcolor);
+	color: var(--text-color);
 }
 
 .textcolor {
-	color: var(--textcolor);
+	color: var(--text-color);
 }
 
 a, 
@@ -79,7 +78,7 @@ a:hover,
 }
 
 .fill-textcolor .icon {
-	fill: var(--textcolor);
+	fill: var(--text-color);
 }
 
 .fill-white .icon {
@@ -146,7 +145,6 @@ input:not([type=radio]),
 textarea,
 select {
 	border-radius: .25rem;
-	padding: 6px;
 	width: 100%;
 }
 
