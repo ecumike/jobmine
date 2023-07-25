@@ -13,18 +13,13 @@ $ cd jobmine
 
 ```
 $ python -m venv .venv
-
-# Windows
-$ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-$ .venv\Scripts\Activate.ps1
-
-# macOS
 $ source .venv/bin/activate
 
 (.venv) $ pip install -r requirements.txt
 (.venv) $ ./manage.py migrate
 (.venv) $ ./manage.py createsuperuser
 (.venv) $ ./manage.py runserver
+
 # Load the site at http://127.0.0.1:8000
 ```
 
@@ -36,7 +31,7 @@ $ source .venv/bin/activate
 
 # Clear sample data
 (.venv) $ ./manage.py clear_sample_data
-
+```
 
 ### ⭐️ Support
 Give a ⭐️  if this project helped you!
