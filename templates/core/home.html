@@ -91,8 +91,42 @@
 		
 	</div>
 	
-	{% if dates %}
-		<script>
+	
+	<script>
+		
+		(function () {
+			var txt = '';
+			
+			document.getElementById('filter-text').addEventListener('input', function () {
+				try {
+					txt = document.getElementById('filter-text').value.trim().toLowerCase();
+				}
+				catch {
+					txt = '';
+				}
+				
+				document.querySelectorAll('.application-item').forEach(function (el) {
+					if (txt !== '') {
+						if (el.innerHTML.toLowerCase().includes(txt)) {
+							el.classList.remove('dn');
+							el.classList.add('db');
+						}
+						else {
+							el.classList.remove('db');
+							el.classList.add('dn');
+						}
+					}
+					else {
+						el.classList.remove('dn');
+						el.classList.add('db');
+					}
+				});
+			});
+			
+		})();
+		
+		
+		{% if dates %}
 			function createApplicationHistoryChart () {
 				var xSeries = {{ dates|safe }},
 					counts = {{ counts|safe }};
@@ -109,7 +143,7 @@
 							labels: true,
 							colors: {
 								'Applications in play': '#137752',
-							  }
+						  	}
 						},
 						axis: {
 							x: {
@@ -127,42 +161,10 @@
 				}, 500)
 			}
 			setTimeout(createApplicationHistoryChart, 100);
-			
-			
-			
+		{% endif %}	
+	
 		
-			(function () {
-				var txt = '';
-				
-				document.getElementById('filter-text').addEventListener('input', function () {
-					try {
-						txt = document.getElementById('filter-text').value.trim().toLowerCase();
-					}
-					catch {
-						txt = '';
-					}
-					
-					document.querySelectorAll('.application-item').forEach(function (el) {
-						if (txt !== '') {
-							if (el.innerHTML.toLowerCase().includes(txt)) {
-								el.classList.remove('dn');
-								el.classList.add('db');
-							}
-							else {
-								el.classList.remove('db');
-								el.classList.add('dn');
-							}
-						}
-						else {
-							el.classList.remove('dn');
-							el.classList.add('db');
-						}
-					});
-				});
-				
-			})();	
-
-		</script>
-	{% endif %}	
+	</script>
+	
 
 {% endblock %}
