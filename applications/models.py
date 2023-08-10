@@ -100,7 +100,19 @@ class JobPosting(models.Model):
 				dates.append(dateAware.strftime('%Y-%m-%d'))
 				counts.append(activeCount)
 			
-		return (dates,counts)
+		return (dates, counts)
+	
+	
+	@staticmethod
+	def newAppsByDate():
+		counts = []
+		firstApplication = JobPosting.objects.order_by('applied_date').only('applied_date').first()
+		if firstApplication:
+			for date in pd.date_range(start=firstApplication.applied_date, end=pd.Timestamp.today()):
+				dateAware = timezone.make_aware(date)
+				counts.append(JobPosting.objects.filter(applied_date=dateAware).count())
+			
+		return (counts)
 	
 	
 	@staticmethod

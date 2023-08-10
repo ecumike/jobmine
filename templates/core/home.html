@@ -129,9 +129,12 @@
 		{% if dates %}
 			function createApplicationHistoryChart () {
 				var xSeries = {{ dates|safe }},
-					counts = {{ counts|safe }};
+					counts = {{ counts|safe }},
+					newAppsCounts = {{ newAppsCounts|safe }};
+					
 				xSeries.unshift('x');
 				counts.unshift('Applications in play');
+				newAppsCounts.unshift('# new applications');
 				
 				var historyChart = c3.generate({
 						bindto: '#history-chart',
@@ -140,9 +143,19 @@
 							type: 'area-spline',
 							x: 'x',
 							columns: [],
-							labels: true,
+							labels: {
+								format: {
+									'# new applications': function (v, id, i, j) { 
+										if (v !== 0) {
+											return v;
+										}
+									},
+									'Applications in play': function (v, id, i, j){return v;},
+								}
+							},
 							colors: {
-								'Applications in play': '#137752',
+								'Applications in play': '#002d9c',
+								'# new applications': '#137752',
 						  	}
 						},
 						axis: {
@@ -157,7 +170,7 @@
 					});
 					
 				historyChart.load({
-					columns: [xSeries,counts],
+					columns: [xSeries,counts, newAppsCounts],
 				}, 500)
 			}
 			setTimeout(createApplicationHistoryChart, 100);

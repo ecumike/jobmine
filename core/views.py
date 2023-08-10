@@ -23,6 +23,7 @@ def home(request):
 		'noContactPostings': noContactPostings,
 		'dates': JobPosting.activeAppsCountByDate()[0],
 		'counts': JobPosting.activeAppsCountByDate()[1],
+		'newAppsCounts': JobPosting.newAppsByDate(),
 		'avgInitialContactDays': JobPosting.getAverageInitialContactDays(),
 		'avgDeclinedDays': JobPosting.getAverageDeclinedDays(),
 	}
