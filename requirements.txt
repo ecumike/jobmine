@@ -1,6 +1,4 @@
 django
-ipdb
-ipython
 psycopg2_binary
 requests
 whitenoise

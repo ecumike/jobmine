@@ -47,7 +47,7 @@
 			<div class="h1 b--gray bt mb3"></div>
 			
 			<div class="flex-ns">
-				<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b green code mr1">{{ activePostings.count }}</span> active</div>
+				<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b green code mr1">{{ activePostingsCount }}</span> active</div>
 				<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b code mr1">{{ noContactPostings.count }}</span> awaiting initial response</div>
 				<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b orange code mr1">{{ sorryPassPostings.count }}</span> passed</div>
 				<div class="w-25-ns mb2 mb0-ns"><span class="f4 b dark-red code mr1">{{ declinedPostings.count }}</span> declined</div>
@@ -61,7 +61,7 @@
 		</div>
 		
 		
-		<div class="mt4 mb3"><span class="f4 b dark-green">Active</span> <span class="ml2 f5 textcolor">({{ activePostings.count }})</span></div>
+		<div class="mt4 mb3"><span class="f4 b dark-green">Active</span> <span class="ml2 f5 textcolor">({{ activePostingsCount }})</span></div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in activePostings %}
 				{% include 'core/partials/posting_list_item.html' with posting=posting %}

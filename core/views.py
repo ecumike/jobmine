@@ -13,16 +13,21 @@ def home(request):
 	for ncp in noContactPostings:
 		ncp.isOld = ncp in staleApplications
 		
+	appCountByDate = JobPosting.activeAppsCountByDate()
+	declinedPostings = JobPosting.objects.filter(status='declined').only('title', 'url', 'company__name').select_related('company')
+	activePostings = JobPosting.objects.filter(status='active').only('title', 'url', 'company__name').select_related('company')
+	
 	context = {
 		'postingCounts': JobPosting.objects.count(),
-		'activePostings': JobPosting.objects.filter(status='active'),
+		'activePostings': activePostings,
+		'activePostingsCount': activePostings.count(),
 		# "declined" is declined applications, no matter how far along they got, call or no calls.
-		'declinedPostings': JobPosting.objects.filter(status='declined', initial_screen=False),
+		'declinedPostings': declinedPostings.filter(initial_screen=False),
 		# "pass" is declined applications that had at least an initial phone screen call.
-		'sorryPassPostings': JobPosting.objects.filter(status='declined', initial_screen=True),
+		'sorryPassPostings': declinedPostings.filter(initial_screen=True),
 		'noContactPostings': noContactPostings,
-		'dates': JobPosting.activeAppsCountByDate()[0],
-		'counts': JobPosting.activeAppsCountByDate()[1],
+		'dates': appCountByDate[0],
+		'counts': appCountByDate[1],
 		'newAppsCounts': JobPosting.newAppsByDate(),
 		'avgInitialContactDays': JobPosting.getAverageInitialContactDays(),
 		'avgDeclinedDays': JobPosting.getAverageDeclinedDays(),
