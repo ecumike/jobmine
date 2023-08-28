@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Count
+from django.db.models.functions import Lower
 
 from applications.models import *
 
@@ -8,14 +9,14 @@ from applications.models import *
 ##
 def home(request):
 	staleApplications = JobPosting.getStaleApplications()
-	noContactPostings = JobPosting.objects.exclude(status='declined').exclude(initial_screen=True).only('title', 'url', 'company__name').select_related('company')
+	noContactPostings = JobPosting.objects.exclude(status='declined').exclude(initial_screen=True).only('title', 'url', 'company__name').select_related('company').order_by(Lower('company__name'))
 	
 	for ncp in noContactPostings:
 		ncp.isOld = ncp in staleApplications
 		
 	appCountByDate = JobPosting.activeAppsCountByDate()
-	declinedPostings = JobPosting.objects.filter(status='declined').only('title', 'url', 'company__name').select_related('company')
-	activePostings = JobPosting.objects.filter(status='active').only('title', 'url', 'company__name').select_related('company')
+	declinedPostings = JobPosting.objects.filter(status='declined').only('title', 'url', 'company__name').select_related('company').order_by(Lower('company__name'))
+	activePostings = JobPosting.objects.filter(status='active').only('title', 'url', 'company__name').select_related('company').order_by(Lower('company__name'))
 	
 	context = {
 		'postingCounts': JobPosting.objects.count(),
