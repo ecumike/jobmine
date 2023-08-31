@@ -3,7 +3,7 @@
 	<div class="inline-flex">
 		<div>{{ posting.company.name }}</div>
 		<div class="inline-flex">
-			<a href="{% url 'admin:applications_jobposting_change' object_id=posting.id %}"><span class="icon small dib ml2">{{ templateHelpers.html.icons.edit|safe }}</span></a>
+			<a href="{% url 'admin:applications_jobposting_change' object_id=posting.id %}" target="_blank"><span class="icon small dib ml2">{{ templateHelpers.html.icons.edit|safe }}</span></a>
 			{% if posting.isOld %}<span class="ml1 dark-red">{{ templateHelpers.html.icons.old|safe }}</span>{% endif %}
 		</div>
 	</div>
