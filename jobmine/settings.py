@@ -140,7 +140,7 @@ USE_TZ = True
 
 ADMINS = []
 MANAGERS = ADMINS
-SERVER_EMAIL = ' jobmine@localhost.com'
+SERVER_EMAIL = 'jobmine@localhost.com'
 
 
 # Static files (CSS, JavaScript, Images)
