@@ -33,6 +33,7 @@ urlpatterns = [
 		name="favicon"
 	),
 
+	path('', RedirectView.as_view(url='/applications')),
 	path('', include('applications.urls')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
