@@ -19,9 +19,9 @@
 		<link href="{% static 'tachyons.min.css' %}" rel="stylesheet">
 		<link href="{% static 'bloodline.min.css' %}" rel="stylesheet">
 		<link href="{% static 'site-common.css' %}" rel="stylesheet">
-		
+
 		{% block extraFiles %} {% endblock %}
-		
+
 	</head>
 
 	<body class="helvetica bg-white">
@@ -30,7 +30,7 @@
 			<div class="bg-white relative z-1">
 				<nav class="shadow-2 flex flex-wrap justify-between bg-white custom-header pl3 pr4">
 					<div class="flex flex-wrap items-baseline">
-						<div><a class="fw8 underline-hover pa3 link f6 f5-ns fw5 dib relative hover-dark-blue textcolor" href="{% url 'home' %}">Jobmine</a></div>
+						<div><a class="fw8 underline-hover pa3 link f6 f5-ns fw5 dib relative hover-dark-blue textcolor" href="{% url 'applications_home' %}">Jobmine</a></div>
 						<div class="flex flex-wrap custom-headerlinks">
 							{% if request.user.is_superuser %}
 								<a class="{{ templateHelpers.classes.navItem }}" href="{% url 'admin:index' %}">Django admin</a>
@@ -39,7 +39,7 @@
 					</div>
 				</nav>
 			</div>
-		
+
 			{% block leadspace %}
 				<div class="{{ templateHelpers.classes.grid }} pv4 bg-black">
 					<h1 class="near-white lh-title f3 fw6 mv0 pv0 mw7">{% block pageTitle %}Missing page title{% endblock %}</h1>
@@ -47,16 +47,16 @@
 				</div>
 			{% endblock %}
 
-			
+
 			<div style="min-height:calc(100vh - 255px);">
 				{% block content %} {% endblock %}
 			</div>
 
 		</main>
-		
+
 		<footer>
 			<div class="ph3 {% block footerClasses %}bg-white{% endblock %} flex flex-wrap items-center">
-				
+
 			</div>
 		</footer>
 	</body>

@@ -1,22 +1,22 @@
-{% extends "core/page_template.html" %}
+{% extends "page_template.html" %}
 {% load static %}
 
 {% block browserTitle %} {{ block.super}} Dashboard {% endblock %}
 
 {% block pageTitle %} Dashboard {% endblock %}
 
-{% block extraFiles %} 
+{% block extraFiles %}
 
 	<style>
 		.colsplit {
 			column-count: 3;
 			column-gap: 40px;
 		}
-		
+
 	</style>
-	
+
 	{% include 'applications/c3_files.inc' %}
-		
+
 {% endblock %}
 
 
@@ -27,25 +27,25 @@
 			<div><span class="f3 b dark-green code mr2">{{ postingCounts }}</span>job applications</div>
 			<div class="ml3 mt1"><a href="{% url 'admin:applications_jobposting_add' %}" class="b--blue ba bg-blue bl-animate-all no-underline br1 bw1 dib hover-b--dark-blue hover-bg-dark-blue hover-white ph2 pointer pv1 white">Add new</a></div>
 		</div>
-		
+
 		{% if dates %}<div id="history-chart" class="mb3" style="height:300px;"></div>{% endif %}
-		
+
 		<div class="pa4 bg-near-white">
 			<div class="flex-ns justify-center">
 				<div class="mb4 w-100 mw5 tc">
 					<div class="f6">Avg initial screen contact</div>
 					<div class="f1 dark-green">{{ avgInitialContactDays }}</div>
 					<div class="">days</div>
-				</div>	
+				</div>
 				<div class="mb4 w-100 mw5 tc">
 					<div class="f6">Avg declined contact</div>
 					<div class="f1 dark-red">{{ avgDeclinedDays }}</div>
 					<div class="">days</div>
 				</div>
 			</div>
-				
+
 			<div class="h1 b--gray bt mb3"></div>
-			
+
 			<div class="flex-ns">
 				<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b green code mr1">{{ activePostingsCount }}</span> active</div>
 				<div class="w-25-ns mb2 mb0-ns ml4-ns"><span class="f4 b code mr1">{{ noContactPostings.count }}</span> awaiting initial response</div>
@@ -53,50 +53,50 @@
 				<div class="w-25-ns mb2 mb0-ns"><span class="f4 b dark-red code mr1">{{ declinedPostings.count }}</span> declined</div>
 			</div>
 		</div>
-				
-		
+
+
 		<div class="mv5 flex-ns items-center">
 			<div>Filter applications:</div>
 			<div class="ml3"><input id="filter-text" type="search" value=""></div>
 		</div>
-		
-		
+
+
 		<div class="mt4 mb3"><span class="f4 b dark-green">Active</span> <span class="ml2 f5 textcolor">({{ activePostingsCount }})</span></div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in activePostings %}
-				{% include 'core/partials/posting_list_item.html' with posting=posting %}
+				{% include 'partials/posting_list_item.html' with posting=posting %}
 			{% endfor %}
 		</div>
-		
+
 		<div class="mt4 mb3"><span class="f4 b">Awaiting initial response</span> <span class="ml2 f5 textcolor">({{ noContactPostings.count }})</span></div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in noContactPostings %}
-				{% include 'core/partials/posting_list_item.html' with posting=posting %}
+				{% include 'partials/posting_list_item.html' with posting=posting %}
 			{% endfor %}
 		</div>
-		
+
 		<div class="mt4 mb3"><span class="f4 b orange">Passed</span> <span class="ml2 f5 textcolor">({{ sorryPassPostings.count }})</span></div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in sorryPassPostings %}
-				{% include 'core/partials/posting_list_item.html' with posting=posting %}
+				{% include 'partials/posting_list_item.html' with posting=posting %}
 			{% endfor %}
 		</div>
-		
+
 		<div class="mt4 mb3"><span class="f4 b dark-red">Declined</span> <span class="ml2 f5 textcolor">({{ declinedPostings.count }})</span></div>
 		<div class="colsplit pa4 bg-near-white">
 			{% for posting in declinedPostings %}
-				{% include 'core/partials/posting_list_item.html' with posting=posting %}
+				{% include 'partials/posting_list_item.html' with posting=posting %}
 			{% endfor %}
 		</div>
-		
+
 	</div>
-	
-	
+
+
 	<script>
-		
+
 		(function () {
 			var txt = '';
-			
+
 			document.getElementById('filter-text').addEventListener('input', function () {
 				try {
 					txt = document.getElementById('filter-text').value.trim().toLowerCase();
@@ -104,7 +104,7 @@
 				catch {
 					txt = '';
 				}
-				
+
 				document.querySelectorAll('.application-item').forEach(function (el) {
 					if (txt !== '') {
 						if (el.innerHTML.toLowerCase().includes(txt)) {
@@ -122,20 +122,20 @@
 					}
 				});
 			});
-			
+
 		})();
-		
-		
+
+
 		{% if dates %}
 			function createApplicationHistoryChart () {
 				var xSeries = {{ dates|safe }},
 					counts = {{ counts|safe }},
 					newAppsCounts = {{ newAppsCounts|safe }};
-					
+
 				xSeries.unshift('x');
 				counts.unshift('Applications in play');
 				newAppsCounts.unshift('# new applications');
-				
+
 				var historyChart = c3.generate({
 						bindto: '#history-chart',
 						point: {r: 2},
@@ -145,7 +145,7 @@
 							columns: [],
 							labels: {
 								format: {
-									'# new applications': function (v, id, i, j) { 
+									'# new applications': function (v, id, i, j) {
 										if (v !== 0) {
 											return v;
 										}
@@ -168,16 +168,16 @@
 						},
 						legend: { show: false },
 					});
-					
+
 				historyChart.load({
 					columns: [xSeries,counts, newAppsCounts],
 				}, 500)
 			}
 			setTimeout(createApplicationHistoryChart, 100);
-		{% endif %}	
-	
-		
+		{% endif %}
+
+
 	</script>
-	
+
 
 {% endblock %}

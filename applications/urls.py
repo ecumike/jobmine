@@ -19,7 +19,8 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import include, path, re_path
 from django.views.generic import RedirectView, TemplateView
 
-from .views import *
+from .views import applications_home
 
 urlpatterns = [
+	path('applications/', applications_home, name='applications_home'),
 ]

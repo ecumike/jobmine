@@ -21,23 +21,20 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import include, path, re_path
 from django.views.generic import RedirectView, TemplateView
 
-from core.views import home
-
 urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('hijack/', include('hijack.urls')),
 	path("__debug__/", include("debug_toolbar.urls")),
-	
+
 	## Map default favicon URL to static file location.
 	re_path(r'^favicon.ico$', RedirectView.as_view(
 		url=staticfiles_storage.url('shared/img/favicon.ico'),
 		permanent=False),
 		name="favicon"
 	),
-	
-	path('', home, name='home'),
-	path('applications/', include(('applications.urls', 'applications'))),
-	
+
+	path('', include('applications.urls')),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
