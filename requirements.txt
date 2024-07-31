@@ -1,3 +1,4 @@
+wheel
 django
 django-debug-toolbar
 django-extensions
