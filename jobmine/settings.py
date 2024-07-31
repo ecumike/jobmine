@@ -40,6 +40,7 @@ INTERNAL_IPS = ['127.0.0.1',]
 # Application definition
 
 INSTALLED_APPS = [
+	'jazzmin',
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
@@ -86,7 +87,7 @@ TEMPLATES = [
 				'django.contrib.messages.context_processors.messages',
 			],
 			'libraries': {
-				'common_templatetags': 'templatetags.common_templatetags'	
+				'common_templatetags': 'templatetags.common_templatetags'
 			},
 		},
 	},

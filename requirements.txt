@@ -1,9 +1,10 @@
 django
+django-debug-toolbar
+django-extensions
+django-hijack
+django-jazzmin
+gunicorn
+pandas
 psycopg2_binary
 requests
 whitenoise
-gunicorn
-django-extensions
-django-debug-toolbar
-django-hijack
-pandas
