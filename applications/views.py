@@ -1,20 +1,19 @@
 from django.shortcuts import render
-from django.db.models import Count
 from django.db.models.functions import Lower
 
-from .models import *
+from .models import JobPosting
 
 ##
 ##	/
 ##
 def applications_home(request):
-	staleApplications = JobPosting.getStaleApplications()
+	staleApplications = JobPosting.get_stale_application()
 	noContactPostings = JobPosting.objects.all_active().exclude(status='declined').exclude(initial_screen=True).only('title', 'url', 'company__name').select_related('company').order_by(Lower('company__name'))
 
 	for ncp in noContactPostings:
 		ncp.isOld = ncp in staleApplications
 
-	appCountByDate = JobPosting.activeAppsCountByDate()
+	appCountByDate = JobPosting.active_apps_count_by_date()
 	declinedPostings = JobPosting.objects.all_active().filter(status='declined').only('title', 'url', 'company__name').select_related('company').order_by(Lower('company__name'))
 	activePostings = JobPosting.objects.all_active().filter(status='active').only('title', 'url', 'company__name').select_related('company').order_by(Lower('company__name'))
 
@@ -29,9 +28,9 @@ def applications_home(request):
 		'noContactPostings': noContactPostings,
 		'dates': appCountByDate[0],
 		'counts': appCountByDate[1],
-		'newAppsCounts': JobPosting.newAppsByDate(),
-		'avgInitialContactDays': JobPosting.getAverageInitialContactDays(),
-		'avgDeclinedDays': JobPosting.getAverageDeclinedDays(),
+		'newAppsCounts': JobPosting.new_apps_by_date(),
+		'avgInitialContactDays': JobPosting.get_average_initial_contact_days(),
+		'avgDeclinedDays': JobPosting.get_average_declined_days(),
 	}
 	return render(request, 'applications/home.html', context)
 

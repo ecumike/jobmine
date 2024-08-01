@@ -1,4 +1,4 @@
-import random 
+import random
 
 from datetime import timedelta
 from django.core.management.base import BaseCommand, CommandError
@@ -12,28 +12,28 @@ fakeCompanies = ['Addtech X', 'Adelicatek', 'Arzo Tek', 'Binq', 'Capy Tech', 'Ce
 fakeTitles = ['Software Engineer', 'Staff Software Engineer', 'Software UI Engineer', 'Software Engineer I', 'Software Engineer II', 'Senior Software Engineer', 'Senior Software Engineer I']
 
 
-def createCompanies():
+def create_companies():
 	for company in fakeCompanies:
-		newCo = Company.objects.get_or_create(
+		_ = Company.objects.get_or_create(
 			name = company,
 			url = f'https://{company.lower()}.com'
 		)
 	return list(Company.objects.all())
 
 
-def randomDate():
+def random_date():
 	'''
 	Return a random datetime.
 	'''
 	start = timezone.now() - timedelta(days=60)
 	end = timezone.now()
-	
+
 	return start + timedelta(
 		seconds = random.randint(0, int((end - start).total_seconds()))
 	)
-	
-	
-def clearSampleData():
+
+
+def clear_sample_data():
 	JobPosting.objects.all().delete()
 	Company.objects.all().delete()
 
@@ -44,39 +44,38 @@ def createSampleDataSet(num):
 	Create (inbound #) random applications with all random data
 	Minimum is 20, so we can randomly set declines and passes
 	'''
-	companyList = createCompanies()
-	
-	if num < 20:
-		num = 20
-		
+	companyList = create_companies()
+
+	num = max(num, 20)
+
 	# Create job postings
-	for i in range(num):
+	for _ in range(num):
 		company = random.choice(companyList)
-		
+
 		JobPosting.objects.create(
-			applied_date = randomDate(),
+			applied_date = random_date(),
 			company = company,
 			title = random.choice(fakeTitles),
 			url = f'https://jobs.{company}/posting/1234567/',
 		)
-	
+
 	jobPostingList = JobPosting.objects.all()
-	
+
 	# Randomly set initial screen for a few
-	for i in range(8):
+	for _ in range(8):
 		posting = random.choice(jobPostingList)
 		posting.initial_contact_date = posting.applied_date + timedelta(days = random.randint(3, 16))
 		posting.initial_screen = True
 		posting.save()
-		
+
 	# Randomly decline a few (no screen)
-	for i in range(14):
+	for _ in range(14):
 		posting = random.choice(JobPosting.objects.exclude(initial_screen=True))
 		posting.declined_date = posting.applied_date + timedelta(days = random.randint(3, 16))
 		posting.save()
-	
+
 	# Randomly pass on a few (after at least initial screen)
-	for i in range(4):
+	for _ in range(4):
 		posting = random.choice(JobPosting.objects.filter(status='active'))
 		posting.declined_date = posting.applied_date + timedelta(days = random.randint(3, 16))
 		posting.save()
@@ -84,16 +83,16 @@ def createSampleDataSet(num):
 
 class Command(BaseCommand):
 	help = "Generates a random sample data set for display purposes for the given # of job postings"
-	
+
 	def add_arguments(self, parser):
 		parser.add_argument('number', nargs='+', type=int)
-	
+
 	def handle(self, *args, **options):
 		try:
 			num = int(options['number'][0])
-		except Poll.DoesNotExist:
-			raise CommandError('Number of postings to create must be an int.')
-		
+		except Exception as ex:
+			raise CommandError('Number of postings to create must be an int.') from ex
+
 		createSampleDataSet(num)
 		self.stdout.write(
 			self.style.SUCCESS('Successfully created all sample data, open the app in your browser to view.')

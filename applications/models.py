@@ -1,9 +1,8 @@
+from datetime import timedelta
 import pandas as pd
 
-from datetime import timedelta
-
 from django.db import models
-from django.db.models import Avg, Q
+from django.db.models import Avg
 from django.utils import timezone
 
 
@@ -82,24 +81,21 @@ class JobPosting(models.Model):
 		super(JobPosting, self).save(*args, **kwargs)
 
 
-	def isStaleApplication(self):
+	def is_stale_application(self):
 		try:
-			if (timezone.now().date() - self.applied_date).days > 30:
-				return True
-			else:
-				return False
-		except:
+			return bool((timezone.now().date() - self.applied_date).days > 30)
+		except Exception:
 			return False
 
 
 	@staticmethod
-	def getStaleApplications():
+	def get_stale_application():
 		oldDate = timezone.now() - timedelta(days=30)
 		return JobPosting.objects.all_active().filter(applied_date__lte=oldDate).only('id')
 
 
 	@staticmethod
-	def activeAppsCountByDate():
+	def active_apps_count_by_date():
 		counts = []
 		dates = []
 		firstApplication = JobPosting.objects.all_active().order_by('applied_date').only('id').first()
@@ -114,7 +110,7 @@ class JobPosting(models.Model):
 
 
 	@staticmethod
-	def newAppsByDate():
+	def new_apps_by_date():
 		counts = []
 		firstApplication = JobPosting.objects.all_active().order_by('applied_date').only('applied_date').first()
 		if firstApplication:
@@ -126,18 +122,18 @@ class JobPosting(models.Model):
 
 
 	@staticmethod
-	def getAverageInitialContactDays():
+	def get_average_initial_contact_days():
 		try:
 			return round(JobPosting.objects.all_active().filter(initial_contact_days__gt=0).aggregate(Avg('initial_contact_days'))['initial_contact_days__avg'],1)
-		except:
+		except Exception:
 			return 0
 
 
 	@staticmethod
-	def getAverageDeclinedDays():
+	def get_average_declined_days():
 		try:
 			return round(JobPosting.objects.all_active().filter(declined_days__gt=0, initial_screen=False).aggregate(Avg('declined_days'))['declined_days__avg'],1)
-		except:
+		except Exception:
 			return 0
 
 
