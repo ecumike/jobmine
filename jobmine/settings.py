@@ -30,7 +30,7 @@ DEBUG = os.environ.get('DJANGO_DEBUG', False)
 
 try:
 	ALLOWED_HOSTS = os.environ.get('SERVERNAMES').split(' ')
-except:
+except Exception:
 	ALLOWED_HOSTS = [
 		'localhost',
 		'127.0.0.1',
@@ -170,5 +170,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ## (settings_local.py)
 try:
 	from .local_settings import *
-except ImportError as ex:
+except ImportError:
 	pass

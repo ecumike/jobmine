@@ -1,3 +1,5 @@
 pylint
+pylint_django
+django-stubs
 ipython
 ipdb
