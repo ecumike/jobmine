@@ -166,9 +166,12 @@ MEDIA_URL = os.getenv('DJANGO_MEDIA_URL', '/media/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-## Import local settings that may exist to override production settings above.
-## (settings_local.py)
-try:
-	from .local_settings import *
-except ImportError:
-	pass
+
+# Django admin package.
+JAZZMIN_SETTINGS = {
+	# title of the window (Will default to current_admin_site.site_title if absent or None)
+	"site_brand": "Django admin",
+	"topmenu_links": [
+		{"name": "home", "url": "applications_home"},
+	]
+}

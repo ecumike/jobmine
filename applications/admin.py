@@ -15,8 +15,6 @@ class CompanyAdmin(admin.ModelAdmin):
 class JobPostingAdmin(admin.ModelAdmin):
 	list_display = (
 		'id',
-		'created_at',
-		'updated_at',
 		'applied_date',
 		'initial_contact_date',
 		'declined_date',
@@ -34,16 +32,13 @@ class JobPostingAdmin(admin.ModelAdmin):
 		'round_5',
 	)
 	list_filter = (
-		'created_at',
-		'updated_at',
+		'company__name',
 		'applied_date',
 		'initial_contact_date',
 		'declined_date',
 		'initial_screen',
-		'round_1',
-		'round_2',
-		'round_3',
-		'round_4',
-		'round_5',
+
 	)
 	date_hierarchy = 'created_at'
+
+	search_fields = ('company__name',)
