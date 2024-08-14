@@ -61,32 +61,40 @@
 		</div>
 
 
-		<div class="mt4 mb3"><span class="f4 b dark-green">Active</span> <span class="ml2 f5 textcolor">({{ activePostingsCount }})</span></div>
-		<div class="colsplit pa4 bg-near-white">
-			{% for posting in activePostings %}
-				{% include 'partials/posting_list_item.html' with posting=posting %}
-			{% endfor %}
+		<div id="active-apps">
+			<div class="mt4 mb3"><span class="f4 b dark-green">Active</span> <span class="app-count ml2 f5 textcolor">({{ activePostingsCount }})</span></div>
+			<div class="colsplit pa4 bg-near-white">
+				{% for posting in activePostings %}
+					{% include 'partials/posting_list_item.html' with posting=posting %}
+				{% endfor %}
+			</div>
 		</div>
 
-		<div class="mt4 mb3"><span class="f4 b">Awaiting initial response</span> <span class="ml2 f5 textcolor">({{ noContactPostings.count }})</span></div>
-		<div class="colsplit pa4 bg-near-white">
-			{% for posting in noContactPostings %}
-				{% include 'partials/posting_list_item.html' with posting=posting %}
-			{% endfor %}
+		<div id="awaiting-apps">
+			<div class="mt4 mb3"><span class="f4 b">Awaiting initial response</span> <span class="app-count ml2 f5 textcolor">({{ noContactPostings.count }})</span></div>
+			<div class="colsplit pa4 bg-near-white">
+				{% for posting in noContactPostings %}
+					{% include 'partials/posting_list_item.html' with posting=posting %}
+				{% endfor %}
+			</div>
 		</div>
 
-		<div class="mt4 mb3"><span class="f4 b orange">Passed</span> <span class="ml2 f5 textcolor">({{ sorryPassPostings.count }})</span></div>
-		<div class="colsplit pa4 bg-near-white">
-			{% for posting in sorryPassPostings %}
-				{% include 'partials/posting_list_item.html' with posting=posting %}
-			{% endfor %}
+		<div id="passed-apps">
+			<div class="mt4 mb3"><span class="f4 b orange">Passed</span> <span class="app-count ml2 f5 textcolor">({{ sorryPassPostings.count }})</span></div>
+			<div class="colsplit pa4 bg-near-white">
+				{% for posting in sorryPassPostings %}
+					{% include 'partials/posting_list_item.html' with posting=posting %}
+				{% endfor %}
+			</div>
 		</div>
 
-		<div class="mt4 mb3"><span class="f4 b dark-red">Declined</span> <span class="ml2 f5 textcolor">({{ declinedPostings.count }})</span></div>
-		<div class="colsplit pa4 bg-near-white">
-			{% for posting in declinedPostings %}
-				{% include 'partials/posting_list_item.html' with posting=posting %}
-			{% endfor %}
+		<div id="declined-apps">
+			<div class="mt4 mb3"><span class="f4 b dark-red">Declined</span> <span class="app-count ml2 f5 textcolor">({{ declinedPostings.count }})</span></div>
+			<div class="colsplit pa4 bg-near-white">
+				{% for posting in declinedPostings %}
+					{% include 'partials/posting_list_item.html' with posting=posting %}
+				{% endfor %}
+			</div>
 		</div>
 
 	</div>
@@ -121,7 +129,19 @@
 						el.classList.add('db');
 					}
 				});
+
+				// Update count.
+				updateCount('active-apps');
+				updateCount('awaiting-apps');
+				updateCount('passed-apps');
+				updateCount('declined-apps');
 			});
+
+
+			function updateCount (id) {
+				let appSection =  document.querySelector('#'+id);
+				appSection.querySelector('.app-count').innerHTML = '('+appSection.querySelectorAll('.application-item.db').length + ')';
+			}
 
 		})();
 
